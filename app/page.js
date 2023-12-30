@@ -65,7 +65,7 @@ export default function Home() {
 
 
   return (
-    <div className="main animate relative bg-black">
+    <div className="main animate relative bg-[#22092C]">
       {isNewYear && (
         <Confetti width={width} height={height} numberOfPieces={400} />
       )}
