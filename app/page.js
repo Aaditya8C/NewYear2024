@@ -1,113 +1,96 @@
-import Image from 'next/image'
+"use client";
+import { useEffect, useState } from "react";
+import * as animationData from "../public/helicopter.json";
+import Lottie from "react-lottie";
+import { useWindowSize } from "react-use";
+import Confetti from "react-confetti";
+import classNames from "classnames";
 
 export default function Home() {
+  const { width, height } = useWindowSize();
+  const [text, setText] = useState("");
+  const [year, setYear] = useState(2023);
+  const [yearDigit, setYearDigit] = useState(4);
+  const [isNewYear, setIsNewYear] = useState(false);
+  const [moveClass, setMoveClass] = useState("");
+  const happyNewYearText = "Happy New Year!!!!";
+  // const audio = new Audio('../public/jamalkadu.mp3')
+  const [audio] = useState(new Audio("/jamalkadu.mp3"));
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setYearDigit(5);
+  //   }, 4700);
+  // }, [yearDigit]);
+
+  const playAudio = () => {
+    audio.muted = false;
+    audio.play();
+  };
+
+  const prepareText = () => {
+    let index = 0;
+    const interval = setInterval(() => {
+      setText(happyNewYearText.slice(0, index + 1));
+      index++;
+      if (index === happyNewYearText.length) clearInterval(interval);
+    }, 100);
+  };
+
+  const celebrate = () => {
+    prepareText();
+    playAudio();
+    setMoveClass("animate-move");
+    setIsNewYear(true);
+    setTimeout(() => {
+      setYear(2024);
+      setYearDigit(3);
+      playAudio();
+    }, 2870);
+
+
+    setTimeout(() => {
+      setYearDigit(5);
+    }, 5500);
+  };
+
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className="main animate relative bg-black">
+      {isNewYear && (
+        <Confetti width={width} height={height} numberOfPieces={400} />
+      )}
+      <div className="flex w-full h-full justify-center items-center flex-col gap-4">
+        <p className="text-5xl text-orange-400 font-semibold">Welcome {year}</p>
+        <p className="text-4xl text-orange-400 font-semibold">{text}</p>
+        <button
+          onClick={celebrate}
+          className="text-white text-2xl px-4 py-2 hover:bg-orange-500 transition-all duration-200 font-semibold bg-orange-400 rounded-full"
+        >
+          Celebrate
+        </button>
+      </div>
+      <div
+        className={classNames(
+          "absolute right-0 top-1/2 flex flex-col items-center justify-center",
+          moveClass
+        )}
+      >
+        <Lottie options={defaultOptions} width={80} height={80} />
+        <div className="border-r-2 border-orange-400 h-6 relative" />
+        <div className="text-center absolute bottom-0 top-24">
+          <p className="text-5xl text-orange-400 font-semibold">{yearDigit}</p>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
