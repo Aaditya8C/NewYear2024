@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as animationData from "../public/helicopter.json";
 import Lottie from "react-lottie";
 import { useWindowSize } from "react-use";
@@ -15,7 +15,9 @@ export default function Home() {
   const [moveClass, setMoveClass] = useState("");
   const happyNewYearText = "Happy New Year!!!!";
   // const audio = new Audio('../public/jamalkadu.mp3')
-  const [audio] = useState(new Audio("/jamalkadu.mp3"));
+  // const audioRef = useRef(new Audio("/jamalkadu.mp3"));
+  // const audioRef = new Audio("/jamalkadu.mp3");
+  const [audio, setAudio] = useState(null)
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -25,16 +27,22 @@ export default function Home() {
     },
   };
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setYearDigit(5);
-  //   }, 4700);
-  // }, [yearDigit]);
+  useEffect(() => {
+    setAudio(new Audio("/jamalkadu.mp3"))
+  }, []);
 
   const playAudio = () => {
-    audio.muted = false;
-    audio.play();
+    // audioRef.muted = false;
+    // audioRef.play();
+    // setAudio(new Audio("/jamalkadu.mp3"))
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      audio.play();
+    }, 10);
+  }, [moveClass])
+  
 
   const prepareText = () => {
     let index = 0;
@@ -47,7 +55,7 @@ export default function Home() {
 
   const celebrate = () => {
     prepareText();
-    playAudio();
+    // playAudio();
     setMoveClass("animate-move");
     setIsNewYear(true);
     setTimeout(() => {
