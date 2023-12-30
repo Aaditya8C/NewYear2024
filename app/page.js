@@ -13,10 +13,7 @@ export default function Home() {
   const [yearDigit, setYearDigit] = useState(4);
   const [isNewYear, setIsNewYear] = useState(false);
   const [moveClass, setMoveClass] = useState("");
-  const happyNewYearText = "Happy New Year!!!!";
-  // const audio = new Audio('../public/jamalkadu.mp3')
-  // const audioRef = useRef(new Audio("/jamalkadu.mp3"));
-  // const audioRef = new Audio("/jamalkadu.mp3");
+  const happyNewYearText = "Happy New Year !!!!";
   const [audio, setAudio] = useState(null)
   const defaultOptions = {
     loop: true,
@@ -27,17 +24,13 @@ export default function Home() {
     },
   };
 
+  //Initialized here because while building it gives error on server side
   useEffect(() => {
     setAudio(new Audio("/jamalkadu.mp3"))
   }, []);
 
-  const playAudio = () => {
-    // audioRef.muted = false;
-    // audioRef.play();
-    // setAudio(new Audio("/jamalkadu.mp3"))
-  };
-
   useEffect(() => {
+    // Waiting to load the audio object
     setTimeout(() => {
       audio.play();
     }, 10);
@@ -55,7 +48,6 @@ export default function Home() {
 
   const celebrate = () => {
     prepareText();
-    // playAudio();
     setMoveClass("animate-move");
     setIsNewYear(true);
     setTimeout(() => {
