@@ -13,7 +13,7 @@ export default function Home() {
   const [yearDigit, setYearDigit] = useState(4);
   const [isNewYear, setIsNewYear] = useState(false);
   const [moveClass, setMoveClass] = useState("");
-  const happyNewYearText = "Happy New Year !!!!";
+                                                                                                                                                                    const happyNewYearText = "Happy New Year !!!!";
   const [audio, setAudio] = useState(null)
   const defaultOptions = {
     loop: true,
